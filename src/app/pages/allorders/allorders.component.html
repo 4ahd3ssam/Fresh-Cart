@@ -1,0 +1,41 @@
+<section class="container md:w-[75%] mx-auto py-5 px-10 md:px-0">
+    @if(orders.length != 0) {
+    <div class="mb-4">
+        <h2 class="text-2xl font-bold text-black dark:text-white">My Orders</h2>
+
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        @for (order of orders; track order.id) {
+        @for (cart of order.cartItems; track cart._id) {
+        <div
+            class="grid grid-cols-1 md:grid-cols-[70%_30%] items-center bg-white border border-gray-200 rounded-sm dark:border-gray-700 dark:bg-gray-800">
+            <div class="flex flex-col items-center md:flex-row">
+                <img class="object-cover w-50 md:w-30 rounded-t-lg md:rounded-none md:rounded-s-lg"
+                    [src]="cart.product.imageCover" alt="">
+                <div class="flex flex-col justify-between p-4 leading-normal">
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-black dark:text-white">
+                        {{cart.product.title}}
+                    </h5>
+                    <p class="mb-3 font-medium text-gray-600 dark:text-gray-400">{{cart.price | currency : "£"}}
+                    </p>
+
+                </div>
+            </div>
+
+        </div>
+        }
+
+        }
+    </div>
+    }
+    @else {
+    <div class="w-full h-full flex flex-col justify-center items-center">
+        <div>
+            <img class="w-[90%] block mx-auto" src="/shopping.png" alt="">
+        </div>
+        <h3 class="text-xl py-5 font-bold text-black dark:text-white text-center">Your Orders are <span
+                class="text-main-green font-bold text-2xl">Empty!</span></h3>
+    </div>
+    }
+
+</section>
