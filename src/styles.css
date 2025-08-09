@@ -8,3 +8,7 @@
 @theme {
     --color-main-green: #038500;
 }
+
+.toast-container .ngx-toastr {
+    box-shadow: none !important;
+}

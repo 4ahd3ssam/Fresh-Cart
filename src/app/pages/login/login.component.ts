@@ -69,7 +69,6 @@ export class LoginComponent {
   closeForgot(): void {
     this.isOpenForgot = false;
     document.body.style.overflow = 'auto';
-
   }
 }
 

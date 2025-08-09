@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../environment/environment';
 
 @Injectable({
@@ -8,6 +8,8 @@ import { environment } from '../../environment/environment';
 })
 export class WishlistService {
   currentToken = localStorage.getItem("token")!;
+  wishlistNumber: BehaviorSubject<number> = new BehaviorSubject(0);
+
   constructor(private readonly httpClient: HttpClient) { }
 
   addProductToWishlist(id: string): Observable<any> {

@@ -1,117 +1,136 @@
-<section class="container mx-auto py-5 px-5 lg:px-10">
-    <div class="w-full lg:w-[100%] xl:w-[70%] mx-auto">
-        <form class="py-10 pe-10" [formGroup]="paymentForm" (ngSubmit)="submitPayment()">
-            <div class="relative z-0 w-full mb-5 group">
-                <input type="text" name="details" id="details"
-                    class="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-white focus:outline-none focus:ring-0 focus:border-black peer"
-                    placeholder=" " formControlName="details" />
-                <label for="details"
-                    class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 z-20 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-black peer-focus:dark:text-white peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Details</label>
-                @let detailsControl = paymentForm.get('details');
-                @if(detailsControl?.errors && detailsControl?.touched){
-                <div id="alert-border-2"
-                    class="flex items-center py-2 text-red-800 bg-red-50 dark:text-red-400 dark:bg-gray-800 dark:border-red-800"
-                    role="alert">
-                    <svg class="shrink-0 inline w-4 h-4 ms-2 mt-[2px]" aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                        <path
-                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+@if(isActive) {
+<div
+    class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-[100vh] bg-black/30">
+    <div class="relative p-4 w-full max-w-md max-h-full">
+        <div class="relative bg-white shadow-sm dark:bg-gray-700">
+            <div class="flex items-center justify-between p-4 md:p-5 border-b dark:border-gray-600 border-gray-200">
+                <h3 class="text-xl font-semibold text-black dark:text-white">
+                    Payment Information
+                </h3>
+                <button type="button" (click)="closeModal()"
+                    class="cursor-pointer end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-black rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                    data-modal-hide="authentication-modal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                     </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+            <form class="p-8" [formGroup]="paymentForm" (ngSubmit)="submitPayment()">
+                <div class="relative z-0 w-full mb-5 group">
+                    <input type="text" name="details" id="details"
+                        class="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-white focus:outline-none focus:ring-0 focus:border-black peer"
+                        placeholder=" " formControlName="details" />
+                    <label for="details"
+                        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 z-20 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-black peer-focus:dark:text-white peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Details</label>
+                    @let detailsControl = paymentForm.get('details');
+                    @if(detailsControl?.errors && detailsControl?.touched){
+                    <div id="alert-border-2"
+                        class="flex items-center py-2 text-red-800 bg-red-50 dark:text-red-400 dark:bg-gray-800 dark:border-red-800"
+                        role="alert">
+                        <svg class="shrink-0 inline w-4 h-4 ms-2 mt-[2px]" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                        </svg>
+                        <div class="ms-2 text-sm">
+                            @if(detailsControl?.getError("required")){
+                            <p>Details is required</p>
+                            }
+                            @else{
+                            <p>Invalid details</p>
+                            }
+                        </div>
+                    </div>
+                    }
+                </div>
+                <div class="relative z-0 w-full mb-5 group">
+                    <input type="tel" name="phone" id="phone"
+                        class="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-white focus:outline-none focus:ring-0 focus:border-black peer"
+                        placeholder=" " formControlName="phone" />
+                    <label for="phone"
+                        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 z-20 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-black peer-focus:dark:text-white peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone
+                        number (+20 1000-000-000)</label>
+
+                    @let phoneControl = paymentForm.get('phone');
+                    @if(phoneControl?.errors && phoneControl?.touched){
+                    <div id="alert-border-2"
+                        class="flex items-center py-2 text-red-800 bg-red-50 dark:text-red-400 dark:bg-gray-800 dark:border-red-800"
+                        role="alert">
+                        <svg class="shrink-0 inline w-4 h-4 ms-2 mt-[2px]" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                        </svg>
+                        <div class="ms-2 text-sm">
+                            @if(phoneControl?.getError("required")){
+                            <p>Phone Number is required</p>
+                            }
+                            @if(phoneControl?.getError("pattern")){
+                            <p>Phone Number is invalid</p>
+                            }
+                        </div>
+                    </div>
+                    }
+                </div>
+                <div class="relative z-0 w-full mb-5 group">
+                    <input type="text" name="city" id="city"
+                        class="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-white focus:outline-none focus:ring-0 focus:border-black peer"
+                        placeholder=" " formControlName="city" />
+                    <label for="city"
+                        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-black peer-focus:dark:text-white peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">City</label>
+
+                    @let cityControl = paymentForm.get('city');
+                    @if(cityControl?.errors && cityControl?.touched){
+                    <div id="alert-border-2"
+                        class="flex items-center py-2 text-red-800 bg-red-50 dark:text-red-400 dark:bg-gray-800 dark:border-red-800"
+                        role="alert">
+                        <svg class="shrink-0 inline w-4 h-4 ms-2 mt-[2px]" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                        </svg>
+                        <div class="ms-2 text-sm">
+                            @if(cityControl?.getError("required")){
+                            <p>City is required</p>
+                            }
+                            @else if(cityControl?.errors) {
+                            <p>city is invalid</p>
+                            }
+                        </div>
+                    </div>
+                    }
+                </div>
+                <button type="submit"
+                    class="text-white bg-black dark:bg-gray-800 hover:bg-gray-500 focus:outline-none cursor-pointer rounded-sm text-sm w-full sm:w-auto px-5 py-2.5 text-center transition">
+                    Pay
+                    @if(isLoadingSubmission) {
+                    <i class="fa-solid fa-spinner fa-spin fa-spin-reverse ms-1"></i>
+                    }
+                </button>
+                @if(errorSubmissionMsg){
+                <div id="alert-border-2"
+                    class="flex items-center py-2 mt-2 rounded-sm text-red-800 bg-red-50 dark:text-red-400 dark:bg-gray-800 dark:border-red-800"
+                    role="alert">
                     <div class="ms-2 text-sm">
-                        @if(detailsControl?.getError("required")){
-                        <p>Details is required</p>
-                        }
-                        @else{
-                        <p>Invalid details</p>
-                        }
+                        <p>{{errorSubmissionMsg}}</p>
                     </div>
                 </div>
                 }
-            </div>
-            <div class="relative z-0 w-full mb-5 group">
-                <input type="tel" name="phone" id="phone"
-                    class="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-white focus:outline-none focus:ring-0 focus:border-black peer"
-                    placeholder=" " formControlName="phone" />
-                <label for="phone"
-                    class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 z-20 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-black peer-focus:dark:text-white peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone
-                    number (+20 1000-000-000)</label>
-
-                @let phoneControl = paymentForm.get('phone');
-                @if(phoneControl?.errors && phoneControl?.touched){
+                @if(successSubmissionMsg){
                 <div id="alert-border-2"
-                    class="flex items-center py-2 text-red-800 bg-red-50 dark:text-red-400 dark:bg-gray-800 dark:border-red-800"
+                    class="flex items-center py-2 mt-2 rounded-sm text-main-green bg-gray-100 dark:text-main-green dark:bg-gray-800"
                     role="alert">
-                    <svg class="shrink-0 inline w-4 h-4 ms-2 mt-[2px]" aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                        <path
-                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-                    </svg>
+
                     <div class="ms-2 text-sm">
-                        @if(phoneControl?.getError("required")){
-                        <p>Phone Number is required</p>
-                        }
-                        @if(phoneControl?.getError("pattern")){
-                        <p>Phone Number is invalid</p>
-                        }
+                        <p>{{successSubmissionMsg}}</p>
                     </div>
                 </div>
                 }
-            </div>
-            <div class="relative z-0 w-full mb-5 group">
-                <input type="text" name="city" id="city"
-                    class="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-white focus:outline-none focus:ring-0 focus:border-black peer"
-                    placeholder=" " formControlName="city" />
-                <label for="city"
-                    class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-black peer-focus:dark:text-white peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">City</label>
-
-                @let cityControl = paymentForm.get('city');
-                @if(cityControl?.errors && cityControl?.touched){
-                <div id="alert-border-2"
-                    class="flex items-center py-2 text-red-800 bg-red-50 dark:text-red-400 dark:bg-gray-800 dark:border-red-800"
-                    role="alert">
-                    <svg class="shrink-0 inline w-4 h-4 ms-2 mt-[2px]" aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                        <path
-                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-                    </svg>
-                    <div class="ms-2 text-sm">
-                        @if(cityControl?.getError("required")){
-                        <p>City is required</p>
-                        }
-                        @else if(cityControl?.errors) {
-                        <p>city is invalid</p>
-                        }
-                    </div>
-                </div>
-                }
-            </div>
-            <button type="submit"
-                class="text-white bg-black dark:bg-gray-800 hover:bg-gray-500 focus:outline-none cursor-pointer rounded-sm text-sm w-full sm:w-auto px-5 py-2.5 text-center transition">
-                Pay
-                @if(isLoadingSubmission) {
-                <i class="fa-solid fa-spinner fa-spin fa-spin-reverse ms-1"></i>
-                }
-            </button>
-            @if(errorSubmissionMsg){
-            <div id="alert-border-2"
-                class="flex items-center py-2 mt-2 rounded-sm text-red-800 bg-red-50 dark:text-red-400 dark:bg-gray-800 dark:border-red-800"
-                role="alert">
-                <div class="ms-2 text-sm">
-                    <p>{{errorSubmissionMsg}}</p>
-                </div>
-            </div>
-            }
-            @if(successSubmissionMsg){
-            <div id="alert-border-2"
-                class="flex items-center py-2 mt-2 rounded-sm text-main-green bg-gray-100 dark:text-main-green dark:bg-gray-800"
-                role="alert">
-
-                <div class="ms-2 text-sm">
-                    <p>{{successSubmissionMsg}}</p>
-                </div>
-            </div>
-            }
-        </form>
+            </form>
+        </div>
     </div>
-
-</section>
+</div>
+}

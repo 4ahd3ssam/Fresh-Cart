@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, Inject, inject, OnInit } from '@angular/core';
 import { ProductsService } from '../../core/services/products/products.service';
 import { IProduct } from '../../shared/interfaces/iproduct';
 import { CategoriesService } from '../../core/services/categories/categories.service';
@@ -8,6 +8,7 @@ import { RouterLink } from '@angular/router';
 import { CurrencyPipe, TitleCasePipe } from '@angular/common';
 import { CartService } from '../../core/services/cart/cart.service';
 import { WishlistService } from '../../core/services/wishlist/wishlist.service';
+import { MessageService } from '../../core/services/toastr/message.service';
 
 @Component({
   selector: 'app-home',
@@ -21,7 +22,7 @@ export class HomeComponent implements OnInit {
   private readonly categoriesService = inject(CategoriesService);
   private readonly cartService = inject(CartService);
   private readonly wishlistService = inject(WishlistService);
-
+  private readonly toastr = inject(MessageService);
 
   products: IProduct[] = [];
   categories: ICategory[] = [];
@@ -54,6 +55,7 @@ export class HomeComponent implements OnInit {
     },
     nav: true
   }
+
   mainSliderOptions: OwlOptions = {
     loop: true,
     mouseDrag: false,
@@ -103,9 +105,12 @@ export class HomeComponent implements OnInit {
     this.cartService.addProductToCart(id).subscribe({
       next: (res) => {
         console.log(res);
+        this.cartService.cartNumber.next(res.numOfCartItems);
+        this.toastr.sendSuccess(res.message);
       },
       error: (err) => {
         console.log(err);
+        this.toastr.sendError(err.message);
       }
     })
   }
@@ -115,9 +120,11 @@ export class HomeComponent implements OnInit {
       next: (res) => {
         console.log(res);
         this.getWishlist();
+        this.toastr.sendSuccess(res.message);
       },
       error: (err) => {
         console.log(err);
+        this.toastr.sendError(err.message);
       }
     })
   }
@@ -126,7 +133,7 @@ export class HomeComponent implements OnInit {
     this.wishlistService.getWishlist().subscribe({
       next: (res) => {
         this.wishlistItems = res.data;
-        console.log(this.wishlistItems);
+        this.wishlistService.wishlistNumber.next(this.wishlistItems.length);
       },
       error: (err) => {
         console.log(err);

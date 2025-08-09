@@ -4,6 +4,7 @@ import { FlowbiteService } from '../../core/services/flowbite.service';
 import { WishlistService } from '../../core/services/wishlist/wishlist.service';
 import { IProduct } from '../../shared/interfaces/iproduct';
 import { CurrencyPipe } from '@angular/common';
+import { MessageService } from '../../core/services/toastr/message.service';
 
 @Component({
   selector: 'app-wishlist',
@@ -13,6 +14,8 @@ import { CurrencyPipe } from '@angular/common';
 })
 export class WishlistComponent {
   private readonly wishlistService = inject(WishlistService);
+  private readonly toastr = inject(MessageService);
+
   wishlist: IProduct[] = [];
 
   constructor(private flowbiteService: FlowbiteService) { }
@@ -30,6 +33,7 @@ export class WishlistComponent {
       next: (res) => {
         console.log(res.data, "wishlist");
         this.wishlist = res.data;
+        this.wishlistService.wishlistNumber.next(this.wishlist.length);
       },
       error: (err) => {
         console.log(err);
@@ -37,14 +41,16 @@ export class WishlistComponent {
     })
   }
 
-    removeWishlistItem(id: string): void {
+  removeWishlistItem(id: string): void {
     this.wishlistService.removeWishlistItem(id).subscribe({
       next: (res) => {
         console.log(res);
         this.getWishlist();
+        this.toastr.sendSuccess("Product removed successfully from your wishlist!");
       },
       error: (err) => {
-        console.log(err)
+        console.log(err);
+        this.toastr.sendError(err.message);
       }
     })
   }

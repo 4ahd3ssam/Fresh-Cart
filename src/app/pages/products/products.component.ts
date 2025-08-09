@@ -9,6 +9,7 @@ import { SearchPipe } from '../../shared/pipes/search.pipe';
 import { FormsModule, NgModel } from '@angular/forms';
 import { CartService } from '../../core/services/cart/cart.service';
 import { WishlistService } from '../../core/services/wishlist/wishlist.service';
+import { MessageService } from '../../core/services/toastr/message.service';
 
 @Component({
   selector: 'app-products',
@@ -20,6 +21,8 @@ export class ProductsComponent {
   private readonly productsService = inject(ProductsService);
   private readonly cartService = inject(CartService);
   private readonly wishlistService = inject(WishlistService);
+  private readonly toastr = inject(MessageService);
+
 
   products: IProduct[] = [];
   searchValue: string = "";
@@ -53,9 +56,12 @@ export class ProductsComponent {
     this.cartService.addProductToCart(id).subscribe({
       next: (res) => {
         console.log(res);
+        this.cartService.cartNumber.next(res.numOfCartItems);
+        this.toastr.sendSuccess(res.message);
       },
       error: (err) => {
         console.log(err);
+        this.toastr.sendError(err.message);
       }
     })
   }
@@ -64,9 +70,11 @@ export class ProductsComponent {
       next: (res) => {
         console.log(res);
         this.getWishlist();
+        this.toastr.sendSuccess(res.message);
       },
       error: (err) => {
         console.log(err);
+        this.toastr.sendError(err.message);
       }
     })
   }
@@ -75,6 +83,7 @@ export class ProductsComponent {
     this.wishlistService.getWishlist().subscribe({
       next: (res) => {
         this.wishlistItems = res.data;
+        this.wishlistService.wishlistNumber.next(this.wishlistItems.length);
         console.log(this.wishlistItems);
       },
       error: (err) => {

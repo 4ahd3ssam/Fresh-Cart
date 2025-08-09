@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { PaymentService } from '../../core/services/payment/payment.service';
@@ -12,11 +12,13 @@ import { PaymentService } from '../../core/services/payment/payment.service';
 export class CheckoutComponent implements OnInit {
   private readonly formBuilder = inject(FormBuilder);
   private readonly paymentService = inject(PaymentService);
-
-
   private readonly activatedRoute = inject(ActivatedRoute);
+
+
   paymentForm!: FormGroup;
   cartID: string = localStorage.getItem("cartID")!;
+  @Input() isActive = false;
+  @Output() close = new EventEmitter<void>();
 
 
   ngOnInit(): void {
@@ -33,17 +35,32 @@ export class CheckoutComponent implements OnInit {
   successSubmissionMsg: string = "";
 
   submitPayment() {
-
-    this.paymentService.checkoutSession(this.cartID, this.paymentForm.value).subscribe({
-      next: (res) => {
-        console.log(res);
-        if(res.status == "success") {
-          window.open(res.session.url, "_self");
+    if (this.paymentForm.valid) {
+      this.isLoadingSubmission = true;
+      this.paymentService.checkoutSession(this.cartID, this.paymentForm.value).subscribe({
+        next: (res) => {
+          console.log(res);
+          if (res.status == "success") {
+            this.isLoadingSubmission = false;
+            this.errorSubmissionMsg = "";
+            this.successSubmissionMsg = res.message;
+            setTimeout(() => {
+              window.open(res.session.url, "_self");
+            }, 2000)
+          }
+        },
+        error: (err) => {
+          console.log(err);
+          this.isLoadingSubmission = false;
+          this.successSubmissionMsg = "";
+          this.errorSubmissionMsg = err.error.message;
         }
-      },
-      error: (err) => {
-        console.log(err)
-      }
-    })
+      })
+    }
+
+  }
+
+  closeModal(): void {
+    this.close.emit();
   }
 }

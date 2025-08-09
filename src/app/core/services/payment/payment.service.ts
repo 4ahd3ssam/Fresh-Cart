@@ -14,12 +14,7 @@ export class PaymentService {
   checkoutSession(id: string, shippingData: object): Observable<any> {
     return this.httpClient.post(`${environment.baseURL}/api/v1/orders/checkout-session/${id}?url=${window.location.origin}`, {
       "shippingAddress": shippingData
-    },
-      {
-        headers: {
-          token: this.myToken
-        }
-      }
+    }
     )
   }
 }

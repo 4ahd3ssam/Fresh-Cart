@@ -5,17 +5,23 @@ import { ICart } from '../../shared/interfaces/icart';
 import { initFlowbite } from 'flowbite';
 import { CurrencyPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { MessageService } from '../../core/services/toastr/message.service';
+import { CheckoutComponent } from "../checkout/checkout.component";
 
 @Component({
   selector: 'app-cart',
-  imports: [CurrencyPipe, RouterLink],
+  imports: [CurrencyPipe, RouterLink, CheckoutComponent],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css'
 })
 export class CartComponent implements OnInit {
 
   private readonly cartService = inject(CartService);
-  cartDetails: ICart = {} as ICart
+  private readonly toastr = inject(MessageService);
+  cartDetails: ICart = {} as ICart;
+
+  isOpenPayment: boolean = false;
+
 
   constructor(private flowbiteService: FlowbiteService) { }
   ngOnInit(): void {
@@ -40,10 +46,13 @@ export class CartComponent implements OnInit {
     this.cartService.removeCartItem(id).subscribe({
       next: (res) => {
         console.log(res);
+        this.cartService.cartNumber.next(res.numOfCartItems);
         this.cartDetails = res.data;
+        this.toastr.sendSuccess("Item has been removed successfully!");
       },
       error: (err) => {
-        console.log(err)
+        console.log(err);
+        this.toastr.sendError(err.message);
       }
     })
   }
@@ -53,6 +62,7 @@ export class CartComponent implements OnInit {
       next: (res) => {
         console.log(res);
         this.cartDetails = res.data;
+        this.cartService.cartNumber.next(res.numOfCartItems);
       },
       error: (err) => {
         console.log(err);
@@ -65,12 +75,25 @@ export class CartComponent implements OnInit {
       next: (res) => {
         console.log(res);
         this.cartDetails = {} as ICart;
-        console.log(this.cartDetails)
+        console.log(this.cartDetails);
+        this.cartDetails.totalCartPrice = 0;
+        this.cartService.cartNumber.next(0);
+        this.toastr.sendSuccess("Cart has been cleared successfully");
       },
       error: (err) => {
         console.log(err);
+        this.toastr.sendError(err.message);
       }
     })
+  }
+
+  openPayment(): void {
+    this.isOpenPayment = true;
+    document.body.style.overflow = 'hidden';
+  }
+  closePayment(): void {
+    this.isOpenPayment = false;
+    document.body.style.overflow = 'auto';
   }
 
 }

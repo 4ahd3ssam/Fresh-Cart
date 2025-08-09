@@ -6,6 +6,7 @@ import { FlowbiteService } from '../../core/services/flowbite.service';
 import { initFlowbite } from 'flowbite';
 import { CurrencyPipe, DatePipe, TitleCasePipe } from '@angular/common';
 import { CartService } from '../../core/services/cart/cart.service';
+import { MessageService } from '../../core/services/toastr/message.service';
 
 @Component({
   selector: 'app-details',
@@ -17,7 +18,7 @@ export class DetailsComponent implements OnInit {
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly productsService = inject(ProductsService);
   private readonly cartService = inject(CartService);
-
+  private readonly toastr = inject(MessageService);
 
   productId: string = "";
   productDetails: IProduct | null = null;
@@ -55,9 +56,12 @@ export class DetailsComponent implements OnInit {
     this.cartService.addProductToCart(id).subscribe({
       next: (res) => {
         console.log(res);
+        this.cartService.cartNumber.next(res.numOfCartItems);
+        this.toastr.sendSuccess("Product added to cart successfully!");
       },
       error: (err) => {
         console.log(err);
+        this.toastr.sendError(err.message);
       }
     })
   }
