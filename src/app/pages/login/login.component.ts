@@ -45,6 +45,7 @@ export class LoginComponent {
           this.successSubmissionMsg = res.message;
           localStorage.setItem("token", res.token);
           this.authService.getUserData();
+          this.closeForgot();
           setTimeout(() => {
             this.router.navigate(["/home"]);
           }, 2000);

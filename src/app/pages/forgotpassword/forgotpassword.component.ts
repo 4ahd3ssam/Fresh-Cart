@@ -118,6 +118,7 @@ export class ForgotpasswordComponent implements OnInit {
           this.successSubmissionMsg = "Success";
           setTimeout(() => {
             this.isActive = false;
+            this.closeModal();
           }, 2000);
           console.log(res);
         },

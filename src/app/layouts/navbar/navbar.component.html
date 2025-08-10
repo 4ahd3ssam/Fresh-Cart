@@ -14,28 +14,30 @@
         }
         <div class="flex items-center lg:order-2 space-x-1 lg:space-x-0 rtl:space-x-reverse">
             @if(isLoggedIn()) {
-            <button routerLink="cart" routerLinkActive="text-main-green dark:text-main-green"
-                class="block relative bg-gray-100 lg:ms-1 cursor-pointer font-medium py-2 px-3 rounded-sm text-black dark:text-white dark:bg-gray-700 hover:text-gray-400 transition"
+            <button
+                class="block relative bg-gray-100 lg:ms-1 font-medium py-1 px-2 lg:py-2 lg:px-3 rounded-sm text-black dark:text-white dark:bg-gray-900 hover:text-gray-400 transition"
                 type="button">
                 <div
-                    class="absolute top-0 right-0 size-[20px] font-medium text-[14px] text-white bg-red-600 p-1 rounded-full flex justify-center items-center">
+                    class="absolute top-0 right-0 size-[15px] lg:size-[20px] font-medium text-[10px] lg:text-[14px] text-white bg-red-600 p-1 rounded-full flex justify-center items-center">
                     <span>{{cartNumber}}</span>
                 </div>
-                <i class="fa-solid fa-cart-shopping text-2xl"></i>
+                <i class="fa-solid fa-cart-shopping text-[12px] md:text-xl lg:text-2xl cursor-pointer" routerLink="cart"
+                    routerLinkActive="text-main-green dark:text-main-green"></i>
             </button>
-            <button routerLink="wishlist" routerLinkActive="text-main-green dark:text-main-green"
-                class="block relative bg-gray-100 lg:ms-1 cursor-pointer font-medium py-2 px-3 rounded-sm text-black dark:text-white dark:bg-gray-700 hover:text-gray-400 transition"
+            <button
+                class="block relative bg-gray-100 lg:ms-1 font-medium py-1 px-2 lg:py-2 lg:px-3 rounded-sm text-black dark:text-white dark:bg-gray-900 hover:text-gray-400 transition"
                 type="button">
                 <div
-                    class="absolute top-0 right-0 size-[20px] font-medium text-[14px] text-white bg-red-600 p-1 rounded-full flex justify-center items-center">
+                    class="absolute top-0 right-0 size-[15px] lg:size-[20px] font-medium text-[10px] lg:text-[14px] text-white bg-red-600 p-1 rounded-full flex justify-center items-center">
                     <span>{{wishlistNumber}}</span>
                 </div>
-                <i class="fa-solid fa-heart text-2xl"></i>
+                <i class="fa-solid fa-heart text-[12px] md:text-xl lg:text-2xl cursor-pointer" routerLink="wishlist"
+                    routerLinkActive="text-main-green dark:text-main-green"></i>
             </button>
             <button data-modal-target="popup-modal" data-modal-toggle="popup-modal"
-                class="block bg-gray-100 lg:ms-1 cursor-pointer font-medium py-2 px-3 rounded-sm text-black dark:text-white dark:bg-gray-700 hover:text-gray-400 transition"
+                class="block bg-gray-100 lg:ms-1 cursor-pointer font-medium py-1 px-2 lg:py-2 lg:px-3 rounded-sm text-black dark:text-white dark:bg-gray-900 hover:text-gray-400 transition"
                 type="button">
-                Sign out
+                <i class="fa-solid fa-arrow-right-from-bracket text-[12px] md:text-xl lg:text-2xl"></i>
             </button>
             }
             <input type="checkbox" class="hidden" id="modeBtn" #modeBtn>

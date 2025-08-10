@@ -53,7 +53,7 @@
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 my-5">
         @for (product of products.slice(0, 19); track product._id) {
         <div
-            class="w-full max-w-sm bg-gray-100 rounded-sm overflow-hidden dark:bg-gray-900 dark:border-transparent group relative">
+            class="w-full max-w-sm bg-gray-100 rounded-sm overflow-hidden dark:bg-gray-900/50 dark:border-transparent group relative">
             <div
                 class="absolute top-0 right-0 p-3 text-[16px] bg-gray-500  duration-300 translate-x-[200%] group-hover:translate-x-[0%]">
                 <button (click)="addProductToWislist(product._id)" class="hover:cursor-pointer">
